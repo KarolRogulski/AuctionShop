@@ -7,6 +7,6 @@ public class App {
 	public static void main(String[] args) {
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				com.auction.AuctionShop.configuration.DataBaseConfiguration.class);
-		
+
 	}
 }

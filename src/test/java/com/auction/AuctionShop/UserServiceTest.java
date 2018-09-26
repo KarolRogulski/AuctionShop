@@ -1,7 +1,5 @@
 package com.auction.AuctionShop;
 
-import java.util.Date;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,7 @@ public class UserServiceTest {
 	
 	@Test
 	public void saveUserText() {
-		User user1 = new User("dsa", "dgdax", "fadcax", new Date());
+		User user1 = new User();
 		userService.save(user1);
 	}
 }

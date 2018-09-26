@@ -42,7 +42,7 @@ public class DataBaseConfiguration {
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();
 		sfb.setDataSource(dataSource());
-		sfb.setPackagesToScan(new String[] { "com.AuctionShop.domain" });
+		sfb.setAnnotatedClasses(com.auction.AuctionShop.domain.User.class);
 		sfb.setHibernateProperties(hibernateProperties());
 
 		return sfb;
