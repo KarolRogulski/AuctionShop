@@ -2,7 +2,7 @@ package com.auction.AuctionShop;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,8 +34,8 @@ public class UserServiceTest {
 
 	@Before
 	public void setup() {
-		user1 = new User("someEmail1", "someLogin1", "somePassword1", LocalDateTime.now());
-		user2 = new User("someEmail2", "someLogin2", "somePassword2", LocalDateTime.now());
+		user1 = new User("someEmail1", "someLogin1", "somePassword1", LocalDate.now());
+		user2 = new User("someEmail2", "someLogin2", "somePassword2", LocalDate.now());
 		userService.save(user1);
 		userService.save(user2);
 	}
