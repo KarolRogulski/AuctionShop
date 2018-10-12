@@ -1,7 +1,6 @@
 package com.auction.AuctionShop.domain;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -44,7 +43,7 @@ public class User {
 	private Set<Offer> userOffers;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-	private List<Opinion> userOpinions;
+	private Set<Opinion> userOpinions;
 	
 	// Constructor for JPA
 	protected User() {
@@ -121,11 +120,11 @@ public class User {
 		this.userOffers = userOffers;
 	}
 
-	public List<Opinion> getUserOpinions() {
+	public Set<Opinion> getUserOpinions() {
 		return userOpinions;
 	}
 
-	public void setUserOpinions(List<Opinion> userOpinions) {
+	public void setUserOpinions(Set<Opinion> userOpinions) {
 		this.userOpinions = userOpinions;
 	}
 

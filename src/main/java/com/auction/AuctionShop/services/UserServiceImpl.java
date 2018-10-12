@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findById(long id) throws UserNotFoundException {
-		User user = userDao.get(id);
+		User user = userDao.findById(id);
 		if (user != null) {
 			return user;
 		} else {

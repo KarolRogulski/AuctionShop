@@ -2,9 +2,11 @@ package com.auction.AuctionShop.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,7 +28,8 @@ public class Opinion {
 	@Column(name = "opinion_description")
 	private String description;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name ="user_id")
 	private User user;
 
 	// Constructor for JPA
@@ -34,7 +37,6 @@ public class Opinion {
 	}
 
 	public Opinion(float rate, String title, String description, User user) {
-		super();
 		this.rate = rate;
 		this.title = title;
 		this.description = description;
