@@ -26,7 +26,6 @@ public class OpinionDaoTest {
 	@Autowired
 	private UserDao userDao;
 	private Opinion opinion1;
-	private Opinion opinion2;
 	private User user1;
 	
 	@Before
@@ -39,7 +38,8 @@ public class OpinionDaoTest {
 	
 	@Test
 	public void findByTitle(){
-		String titleFromOpinionDao = opinionDao.findByTitle(opinion1.getTitle()).getTitle();
+		Opinion opinionFromDao = opinionDao.findByTitle(opinion1.getTitle());
+		String titleFromOpinionDao = opinionFromDao.getTitle();
 		String titleFromTest = opinion1.getTitle();
 		assertEquals(titleFromOpinionDao, titleFromTest);
 	}
