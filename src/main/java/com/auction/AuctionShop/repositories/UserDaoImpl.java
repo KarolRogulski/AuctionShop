@@ -30,30 +30,34 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public void save(User user) {
+		log.info("Saving user with id: " + user.getId() + " and login: " + user.getLogin());
 		getSession().save(user);
 	}
 
-	public List<User> findByLogin(String login) {
+	public User findByLogin(String login) {
+		log.info("Get user with login: " + login);
 		Query query = getSession().createQuery("from User " + "where login = :login");
 		query.setParameter("login", login);
-		log.info("Get user with login: " + login);
-		List<User> user = query.list();
+		User user = (User) query.uniqueResult();
+		log.info("Return user with login: " + user.getLogin() + "and id: " + user.getId());
 		return user;
 	}
 
 	@Override
 	public List<User> getAll() {
+		log.info("Get all users");
 		Query query = getSession().createQuery("from User ");
 		List<User> userList = query.list();
-		log.info("Get all users");
 		return userList;
 	}
 
 	@Override
 	public User findById(long id) {
+		log.info("Get user with id=" + id);
 		Query query = getSession().createQuery("from User " + "where id = :id");
 		query.setParameter("id", id);
 		User user = (User) query.uniqueResult();
+		log.info("Return user with login: " + user.getLogin() + "and id: " + user.getId());
 		return user;
 	}
 }

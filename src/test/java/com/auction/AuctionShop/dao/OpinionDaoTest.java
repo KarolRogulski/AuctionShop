@@ -1,11 +1,8 @@
-package com.auction.AuctionShop;
-
-import static org.junit.Assert.assertEquals;
+package com.auction.AuctionShop.dao;
 
 import java.time.LocalDate;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,11 +33,4 @@ public class OpinionDaoTest {
 		opinionDao.save(opinion1);
 	}
 	
-	@Test
-	public void findByTitle(){
-		Opinion opinionFromDao = opinionDao.findByTitle(opinion1.getTitle());
-		String titleFromOpinionDao = opinionFromDao.getTitle();
-		String titleFromTest = opinion1.getTitle();
-		assertEquals(titleFromOpinionDao, titleFromTest);
-	}
 }

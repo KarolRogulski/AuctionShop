@@ -1,16 +1,15 @@
 package com.auction.AuctionShop.repositories;
 
-import java.util.List;
+import java.util.Set;
 
+import com.auction.AuctionShop.domain.Auction;
 import com.auction.AuctionShop.domain.User;
 
-public interface UserDao {
+public interface AuctionDao {
 
-	public User findById(long id);
-
-	public List<User> getAll();
+	public Auction findById(long id);
 	
-	public User findByLogin(String login);
+	public Set<Auction> findByOwnerId(long id);
 	
 	public void save(User user);
 	

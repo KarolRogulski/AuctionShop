@@ -31,6 +31,10 @@ public class Opinion {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name ="user_id")
 	private User user;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name ="opinion_owner_id")
+	private User opinionOwner;
 
 	// Constructor for JPA
 	protected Opinion() {
