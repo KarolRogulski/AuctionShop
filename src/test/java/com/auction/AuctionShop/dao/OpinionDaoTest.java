@@ -20,6 +20,7 @@ public class OpinionDaoTest {
 
 	@Autowired
 	private OpinionDao opinionDao;
+	
 	@Autowired
 	private UserDao userDao;
 	private Opinion opinion1;

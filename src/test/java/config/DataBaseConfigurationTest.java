@@ -1,8 +1,9 @@
-package com.auction.AuctionShop.configuration;
+package config;
 
 import java.util.Properties;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import javax.sql.DataSource;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -22,22 +24,22 @@ import com.auction.AuctionShop.services.UserService;
 @PropertySource({ "dataBaseConfig.properties" })
 @ComponentScan(basePackageClasses = { UserDao.class, UserService.class })
 @EnableTransactionManagement
-public class DataBaseConfiguration {
+public class DataBaseConfigurationTest {
 
 	@Autowired
 	private Environment env;
-
-	@Bean
-	public BasicDataSource dataSource() {
-		BasicDataSource ds = new BasicDataSource();
-		ds.setDriverClassName(env.getProperty("jdbc.driverClassName"));
-		ds.setUrl(env.getProperty("jdbc.url"));
-		ds.setUsername(env.getProperty("jdbc.user"));
-		ds.setPassword(env.getProperty("jdbc.pass"));
-		ds.setInitialSize(5);
-		return ds;
-	}
-
+	
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(env.getProperty("jdbc.driverClassName"));
+        dataSource.setUrl(env.getProperty("jdbc.url"));
+        dataSource.setUsername(env.getProperty("jdbc.user"));
+        dataSource.setPassword(env.getProperty("jdbc.pass"));
+ 
+        return dataSource;
+    }
+	
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sfb = new LocalSessionFactoryBean();

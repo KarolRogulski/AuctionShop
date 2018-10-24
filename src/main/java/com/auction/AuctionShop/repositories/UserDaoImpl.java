@@ -29,11 +29,15 @@ public class UserDaoImpl implements UserDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	@Override
 	public void save(User user) {
 		log.info("Saving user with id: " + user.getId() + " and login: " + user.getLogin());
 		getSession().save(user);
 	}
 
+	
+	//Return user by given login
+	@Override
 	public User findByLogin(String login) {
 		log.info("Get user with login: " + login);
 		Query query = getSession().createQuery("from User " + "where login = :login");
@@ -42,7 +46,8 @@ public class UserDaoImpl implements UserDao {
 		log.info("Return user with login: " + user.getLogin() + "and id: " + user.getId());
 		return user;
 	}
-
+	
+	//Return all users
 	@Override
 	public List<User> getAll() {
 		log.info("Get all users");
@@ -51,6 +56,7 @@ public class UserDaoImpl implements UserDao {
 		return userList;
 	}
 
+	//Return user by given id
 	@Override
 	public User findById(long id) {
 		log.info("Get user with id=" + id);
@@ -59,5 +65,32 @@ public class UserDaoImpl implements UserDao {
 		User user = (User) query.uniqueResult();
 		log.info("Return user with login: " + user.getLogin() + "and id: " + user.getId());
 		return user;
+	}
+	
+	@Override
+	public void update(User user) {
+		log.info("Update user with id= " + user.getId() + ", set email= " + user.getEmail() 
+			+ ", login = " + user.getLogin() + ", dateOfBirth= " + user.getDateOfBirth());
+		Query query = getSession().createQuery("update User "
+				+ " set email= :email,"
+				+ " set login= :login, "
+				+ " set password= :password, "
+				+ " set date_of_birth= : dateOfBirth where id= :id");
+		query.setParameter("email", user.getEmail());
+		query.setParameter("login", user.getLogin());
+		query.setParameter("password", user.getPassword());
+		query.setParameter("dateOfBirth", user.getDateOfBirth());
+		query.setParameter("id", user.getId());
+		int result = query.executeUpdate();
+		log.info("Update result: " + result);
+	}
+
+	@Override
+	public void delete(User user) {
+		log.info("Delete user with id= " + user.getId());
+		Query query = getSession().createQuery("delete from User where id= :id");
+		query.setParameter("id", user.getId());
+		int result = query.executeUpdate();
+		log.info("Delete result: " + result);
 	}
 }

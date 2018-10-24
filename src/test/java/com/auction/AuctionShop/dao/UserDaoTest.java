@@ -27,24 +27,25 @@ public class UserDaoTest {
 	@Transactional
 	@Rollback(true)
 	public void findUserByIdTest() {
-		User user1 = new User("someEmail1", "someLogin1", "somePassword1", LocalDate.now());
-		userDao.save(user1);
+		User user = new User("someEmail", "someLogin", "somePassword", LocalDate.now());
+		userDao.save(user);
 		
-		long idFromUserDao = userDao.findById(user1.getId()).getId();
-		long idFromTestUser1 = user1.getId();
+		long idFromUserDao = userDao.findById(user.getId()).getId();
+		long idFromTestUser1 = user.getId();
 		
 		assertEquals(idFromUserDao, idFromTestUser1);
 	}
 
 	@Test
 	@Transactional
+	@Rollback(true)
 	public void findByLogin() {
-		User user2 = new User("someEmail2", "someLogin2", "somePassword2", LocalDate.now());
-		userDao.save(user2);
+		User user = new User("someEmail", "someLogin", "somePassword", LocalDate.now());
+		userDao.save(user);
 		
-		User userFromDao = userDao.findByLogin("someLogin1");
+		User userFromDao = userDao.findByLogin(user.getLogin());
 		String loginFromUserDao = userFromDao.getLogin();
-		String loginFromTestUser1 = user2.getLogin();
+		String loginFromTestUser1 = user.getLogin();
 		
 		assertEquals(loginFromUserDao, loginFromTestUser1);
 	}
