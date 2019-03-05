@@ -1,8 +1,8 @@
 .classpath
 .project
-.settings/
 target/**
 .idea/**
+WebContent/**
 
 # Windows thumbnail cache files
 Thumbs.db
