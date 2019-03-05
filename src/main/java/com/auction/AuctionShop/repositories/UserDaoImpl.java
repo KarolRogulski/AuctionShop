@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void save(User user) {
 		log.info("Saving user with id: " + user.getId() + " and login: " + user.getLogin());
-		getSession().save(user);
+		getSession().persist(user);
 	}
 
 	
@@ -63,26 +63,18 @@ public class UserDaoImpl implements UserDao {
 		Query query = getSession().createQuery("from User " + "where id = :id");
 		query.setParameter("id", id);
 		User user = (User) query.uniqueResult();
-		log.info("Return user with login: " + user.getLogin() + "and id: " + user.getId());
+		log.info("Return user with login: " + user.getLogin() + " and id: " + user.getId());
 		return user;
 	}
 	
 	@Override
-	public void update(User user) {
-		log.info("Update user with id= " + user.getId() + ", set email= " + user.getEmail() 
-			+ ", login = " + user.getLogin() + ", dateOfBirth= " + user.getDateOfBirth());
-		Query query = getSession().createQuery("update User "
-				+ " set email= :email,"
-				+ " set login= :login, "
-				+ " set password= :password, "
-				+ " set date_of_birth= : dateOfBirth where id= :id");
-		query.setParameter("email", user.getEmail());
-		query.setParameter("login", user.getLogin());
-		query.setParameter("password", user.getPassword());
-		query.setParameter("dateOfBirth", user.getDateOfBirth());
-		query.setParameter("id", user.getId());
-		int result = query.executeUpdate();
-		log.info("Update result: " + result);
+	public void update(User userUpdated) {
+		log.info("Update user with id= " + userUpdated.getId());
+		User userFromDB = this.findById(userUpdated.getId());
+		userFromDB.setLogin(userUpdated.getLogin());
+		userFromDB.setEmail(userUpdated.getEmail());
+		userFromDB.setPassword(userUpdated.getPassword());
+		userFromDB.setDateOfBirth(userUpdated.getDateOfBirth());
 	}
 
 	@Override
