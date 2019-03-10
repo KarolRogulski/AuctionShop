@@ -1,14 +1,6 @@
 package com.auction.AuctionShop.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "opinion")
@@ -28,23 +20,25 @@ public class Opinion {
 	@Column(name = "opinion_description")
 	private String description;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name ="user_id")
 	private User user;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="opinion_owner_id")
-	private User opinionOwner;
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name ="opinion_author_id")
+	private User opinionAuthor;
+
 
 	// Constructor for JPA
+
 	protected Opinion() {
 	}
-
-	public Opinion(float rate, String title, String description, User user) {
+	public Opinion(float rate, String title, String description, User user, User opinionAuthor) {
 		this.rate = rate;
 		this.title = title;
 		this.description = description;
 		this.user = user;
+		this.opinionAuthor = opinionAuthor;
 	}
 
 	public long getId() {
@@ -87,4 +81,11 @@ public class Opinion {
 		this.user = user;
 	}
 
+	public User getOpinionAuthor() {
+		return opinionAuthor;
+	}
+
+	public void setOpinionAuthor(User opinionAuthor) {
+		this.opinionAuthor = opinionAuthor;
+	}
 }
