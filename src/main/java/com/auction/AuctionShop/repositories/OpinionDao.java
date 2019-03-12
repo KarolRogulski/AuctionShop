@@ -1,20 +1,23 @@
 package com.auction.AuctionShop.repositories;
 
+import java.util.List;
 import java.util.Set;
 
 import com.auction.AuctionShop.domain.Opinion;
 
 public interface OpinionDao {
 
-	public Opinion findById(long id);
+	Opinion findById(long id);
 	
-	public Opinion findByOwnerId(long id);
+	List<Opinion> findByAuthorId(long id);
 	
-	public Set<Opinion> findByUserId(long id);
+	List<Opinion> findByUserId(long id);
+
+	List<Opinion> getAll();
+
+	void update(Opinion opinion);
+
+	void save(Opinion opinion);
 	
-	public void update(Opinion opinion);
-	
-	public void save(Opinion opinion);
-	
-	public void delete(Opinion opinion);
+	void delete(Opinion opinion);
 }
