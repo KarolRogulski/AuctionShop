@@ -13,11 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.auction.AuctionShop.domain.User;
 
+import javax.jws.soap.SOAPBinding;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
+
 @Repository
 @Transactional
 public class UserDaoImpl implements UserDao {
 
 	private SessionFactory sessionFactory;
+
 	private static final Logger log = LogManager.getLogger(UserDaoImpl.class);
 
 	@Autowired
@@ -40,49 +45,79 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public User findByLogin(String login) {
 		log.info("Get user with login: " + login);
-		Query query = getSession().createQuery("from User " + "where login = :login");
-		query.setParameter("login", login);
-		User user = (User) query.uniqueResult();
-		log.info("Return user with login: " + user.getLogin() + "and id: " + user.getId());
-		return user;
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		Root<User> root = criteria.from(User.class);
+
+		ParameterExpression<String> loginParameter = builder.parameter(String.class);
+		criteria.where(builder.equal(root.get("login"), loginParameter));
+
+		Query<User> query = getSession().createQuery(criteria);
+		query.setParameter(loginParameter, login);
+		return query.getSingleResult();
 	}
-	
+
 	//Return all users
 	@Override
 	public List<User> getAll() {
 		log.info("Get all users");
-		Query query = getSession().createQuery("from User ");
-		List<User> userList = query.list();
-		return userList;
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		Root<User> root = criteria.from(User.class);
+		criteria.select(root);
+
+		Query<User> query = getSession().createQuery(criteria);
+		return query.getResultList();
 	}
 
 	//Return user by given id
 	@Override
 	public User findById(long id) {
 		log.info("Get user with id=" + id);
-		Query query = getSession().createQuery("from User " + "where id = :id");
-		query.setParameter("id", id);
-		User user = (User) query.uniqueResult();
-		log.info("Return user with login: " + user.getLogin() + " and id: " + user.getId());
-		return user;
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+
+		CriteriaQuery<User> criteria = builder.createQuery(User.class);
+		Root<User> root = criteria.from(User.class);
+
+		ParameterExpression<Long> idParameter = builder.parameter(long.class);
+		criteria.where(builder.equal(root.get("id"), idParameter));
+
+		Query<User> query = getSession().createQuery(criteria);
+		query.setParameter(idParameter, id);
+		return query.getSingleResult();
 	}
 	
 	@Override
 	public void update(User userUpdated) {
 		log.info("Update user with id= " + userUpdated.getId());
-		User userFromDB = this.findById(userUpdated.getId());
-		userFromDB.setLogin(userUpdated.getLogin());
-		userFromDB.setEmail(userUpdated.getEmail());
-		userFromDB.setPassword(userUpdated.getPassword());
-		userFromDB.setDateOfBirth(userUpdated.getDateOfBirth());
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+
+		CriteriaUpdate<User> criteria = builder.createCriteriaUpdate(User.class);
+		Root<User> root = criteria.from(User.class);
+
+		criteria.set("login", userUpdated.getLogin());
+		criteria.set("email", userUpdated.getEmail());
+		criteria.set("password", userUpdated.getPassword());
+		criteria.set("dateOfBirth", userUpdated.getDateOfBirth());
+		criteria.where(builder.equal(root.get("id"), userUpdated.getId()));
+
+		Query<User> query = getSession().createQuery(criteria);
+		query.executeUpdate();
 	}
 
 	@Override
 	public void delete(User user) {
 		log.info("Delete user with id= " + user.getId());
-		Query query = getSession().createQuery("delete from User where id= :id");
-		query.setParameter("id", user.getId());
-		int result = query.executeUpdate();
-		log.info("Delete result: " + result);
+		CriteriaBuilder builder = getSession().getCriteriaBuilder();
+
+		CriteriaDelete<User> criteria = builder.createCriteriaDelete(User.class);
+		Root<User> root = criteria.from(User.class);
+
+		criteria.where(builder.equal(root.get("id"), user.getId()));
+
+		Query<User> query = getSession().createQuery(criteria);
+		query.executeUpdate();
 	}
 }
