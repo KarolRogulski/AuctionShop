@@ -1,6 +1,7 @@
 package com.auction.AuctionShop.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -37,14 +38,17 @@ public class User {
 	private float userRating;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-	private Set<Auction> auctions;
+	private List<Auction> auctions;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "offerOwner", orphanRemoval = true)
-	private Set<Offer> userOffers;
+	private List<Offer> userOffers;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "opinionAuthor", orphanRemoval = true)
+	private List<Opinion> byUserOpinions;
+
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-	private Set<Opinion> userOpinions;
-	
+	private List<Opinion> aboutUserOpinions;
+
 	// Constructor for JPA
 	protected User() {
 	}
@@ -104,28 +108,35 @@ public class User {
 		this.userRating = userRating;
 	}
 
-	public Set<Auction> getAuctions() {
+	public List<Auction> getAuctions() {
 		return auctions;
 	}
 
-	public void setAuctions(Set<Auction> auctions) {
+	public void setAuctions(List<Auction> auctions) {
 		this.auctions = auctions;
 	}
 
-	public Set<Offer> getUserOffers() {
+	public List<Offer> getUserOffers() {
 		return userOffers;
 	}
 
-	public void setUserOffers(Set<Offer> userOffers) {
+	public List<Opinion> getAboutUserOpinions() {
+		return aboutUserOpinions;
+	}
+
+	public void setAboutUserOpinions(List<Opinion> aboutUserOpinions) {
+		this.aboutUserOpinions = aboutUserOpinions;
+	}
+
+	public void setUserOffers(List<Offer> userOffers) {
 		this.userOffers = userOffers;
 	}
 
-	public Set<Opinion> getUserOpinions() {
-		return userOpinions;
+	public List<Opinion> getByUserOpinions() {
+		return byUserOpinions;
 	}
 
-	public void setUserOpinions(Set<Opinion> userOpinions) {
-		this.userOpinions = userOpinions;
+	public void setByUserOpinions(List<Opinion> byUserOpinions) {
+		this.byUserOpinions = byUserOpinions;
 	}
-
 }
