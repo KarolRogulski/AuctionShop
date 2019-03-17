@@ -33,9 +33,9 @@ public class UserDaoTest {
 	@Rollback
 	public void findUserByIdTest() {
 		userDao.save(user);
+		long idFromTestUser1 = user.getId();
 
 		long idFromUserDao = userDao.findById(user.getId()).getId();
-		long idFromTestUser1 = user.getId();
 
 		assertEquals(idFromUserDao, idFromTestUser1);
 	}
@@ -44,12 +44,12 @@ public class UserDaoTest {
 	@Transactional
 	@Rollback
 	public void findByLogin() {
+		String loginFromTestUser1 = user.getLogin();
 		userDao.save(user);
-		
+
 		User userFromDao = userDao.findByLogin(user.getLogin());
 		String loginFromUserDao = userFromDao.getLogin();
-		String loginFromTestUser1 = user.getLogin();
-		
+
 		assertEquals(loginFromUserDao, loginFromTestUser1);
 	}
 
@@ -69,14 +69,13 @@ public class UserDaoTest {
 	@Transactional
 	@Rollback
 	public void update() {
-		userDao.save(user);
 		String loginBeforeUpdate = user.getLogin();
-		User updatedUser = secondUser;
+		userDao.save(user);
+		User updatedUser = new User("updatedEmail1", "updatedLogin1", "updatedPassword1", LocalDate.now());
 		updatedUser.setId(user.getId());
 
 		userDao.update(updatedUser);
-
-		assertNotEquals(loginBeforeUpdate, userDao.findById(user.getId()).getLogin());
+		assertNotEquals(loginBeforeUpdate, userDao.findByLogin(updatedUser.getLogin()).getLogin());
 	}
 
 	@Test
