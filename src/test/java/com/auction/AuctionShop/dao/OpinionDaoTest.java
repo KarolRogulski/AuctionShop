@@ -4,7 +4,7 @@ import com.auction.AuctionShop.configuration.DataBaseConfiguration;
 import com.auction.AuctionShop.domain.Opinion;
 import com.auction.AuctionShop.domain.User;
 import com.auction.AuctionShop.repositories.OpinionDao;
-import org.junit.Before;
+import com.auction.AuctionShop.repositories.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -49,11 +50,12 @@ public class OpinionDaoTest {
 	@Rollback
 	public void findByAuthorId(){
 		opinionDao.save(opinion1);
+		opinionDao.save(opinion2);
+		long opinion1AuthorId = opinion1.getOpinionAuthor().getId();
 
-		long idFromTestOpinion = opinion1.getId();
-		long idFromOpinionDao = opinionDao.findByAuthorId(opinionAuthor.getId()).getId();
+		List<Opinion> opinionList = opinionDao.findByAuthorId(opinion1AuthorId);
 
-		assertEquals(idFromTestOpinion, idFromOpinionDao);
+		assertEquals(1, opinionList.size());
 	}
 
 	@Test
@@ -63,7 +65,7 @@ public class OpinionDaoTest {
 		opinionDao.save(opinion1);
 		opinionDao.save(opinion2);
 
-		Set<Opinion> opinions = opinionDao.findByUserId(user1.getId());
+		List<Opinion> opinions = opinionDao.findByUserId(user1.getId());
 
 		assertEquals(2, opinions.size());
 	}
@@ -75,7 +77,7 @@ public class OpinionDaoTest {
 		opinionDao.save(opinion1);
 		opinionDao.save(opinion2);
 
-		Set<Opinion> opinions = opinionDao.getAll();
+		List<Opinion> opinions = opinionDao.getAll();
 
 		assertEquals(2, opinions.size());
 	}

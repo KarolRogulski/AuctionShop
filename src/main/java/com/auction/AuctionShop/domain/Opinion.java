@@ -25,14 +25,14 @@ public class Opinion {
 	private User user;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name ="opinion_author_id")
+	@JoinColumn(name ="author_id")
 	private User opinionAuthor;
 
 
 	// Constructor for JPA
-
 	protected Opinion() {
 	}
+
 	public Opinion(float rate, String title, String description, User user, User opinionAuthor) {
 		this.rate = rate;
 		this.title = title;
