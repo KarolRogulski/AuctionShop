@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,8 +37,8 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void save(User user) {
-		log.info("Saving user with id: " + user.getId() + " and login: " + user.getLogin());
 		getSession().persist(user);
+		log.info("Saving user with id: " + user.getId() + " and login: " + user.getLogin());
 	}
 
 	
@@ -92,19 +93,11 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void update(User userUpdated) {
 		log.info("Update user with id= " + userUpdated.getId());
-		CriteriaBuilder builder = getSession().getCriteriaBuilder();
-
-		CriteriaUpdate<User> criteria = builder.createCriteriaUpdate(User.class);
-		Root<User> root = criteria.from(User.class);
-
-		criteria.set("login", userUpdated.getLogin());
-		criteria.set("email", userUpdated.getEmail());
-		criteria.set("password", userUpdated.getPassword());
-		criteria.set("dateOfBirth", userUpdated.getDateOfBirth());
-		criteria.where(builder.equal(root.get("id"), userUpdated.getId()));
-
-		Query<User> query = getSession().createQuery(criteria);
-		query.executeUpdate();
+		User userFromDB = this.findById(userUpdated.getId());
+		userFromDB.setLogin(userUpdated.getLogin());
+		userFromDB.setEmail(userUpdated.getEmail());
+		userFromDB.setPassword(userUpdated.getPassword());
+		userFromDB.setDateOfBirth(userUpdated.getDateOfBirth());
 	}
 
 	@Override
