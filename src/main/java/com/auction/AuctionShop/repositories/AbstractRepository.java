@@ -22,6 +22,8 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
         this.clazz = clazzToSet;
     }
 
+    public Class<T> getClazz(){ return clazz;}
+
     public void save(T entity){
         getSession().persist(entity);
         log.info("Saving " + clazz + " with id: " + entity.getId());
