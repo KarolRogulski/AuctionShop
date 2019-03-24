@@ -1,16 +1,19 @@
 package com.auction.AuctionShop.repositories;
 
 import com.auction.AuctionShop.domain.Auction;
+import com.auction.AuctionShop.domain.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
+@Repository
 public class AuctionDaoImpl extends AbstractRepository<Auction> implements AuctionDao {
 
     private SessionFactory sessionFactory;
@@ -38,24 +41,19 @@ public class AuctionDaoImpl extends AbstractRepository<Auction> implements Aucti
     @Override
     public List<Auction> findByOwnerId(long id){
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<Auction> criteria = builder.createCriteriaUpdate(getClass());
+        CriteriaQuery<Auction> criteria = builder.createQuery(getClazz());
+        Root<Auction> root = criteria.from(getClazz());
 
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<Opinion> criteria = builder.createQuery(Opinion.class);
-        Root<Opinion> root = criteria.from(Opinion.class);
-
-        Join<Opinion, User> userJoin = root.join("user", JoinType.INNER);
+        Join<Auction, User> auctionJoin = root.join("user", JoinType.INNER);
         List<Predicate> predicates = new ArrayList<>();
 
-        predicates.add(builder.equal(userJoin.get("id"), id));
-
+        predicates.add(builder.equal(auctionJoin.get("id"), id));
         criteria.where(
                 builder.and(predicates.toArray(new Predicate[predicates.size()]))
         );
-        List<Opinion> opinionsList = getSession().createQuery(criteria)
-                .getResultList();
-        log.info("Returned " + opinionsList.size() + "opinions where user Id: " + id);
-        return opinionsList;
-    }
+
+        List<Auction> auctionsList = getSession().createQuery(criteria).getResultList();
+        log.info("Returned " + auctionsList.size() + "auctions where owner Id: " + id);
+        return auctionsList;
     }
 }

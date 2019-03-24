@@ -45,7 +45,7 @@ public class Auction implements AbstractEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auction", orphanRemoval = true)
 	private List<Offer> offers;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private User user;
 

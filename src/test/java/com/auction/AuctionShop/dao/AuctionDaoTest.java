@@ -4,7 +4,6 @@ import com.auction.AuctionShop.configuration.DataBaseConfiguration;
 import com.auction.AuctionShop.domain.Auction;
 import com.auction.AuctionShop.domain.User;
 import com.auction.AuctionShop.repositories.AuctionDao;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,6 @@ public class AuctionDaoTest {
     @Autowired
     private AuctionDao auctionDao;
 
-
     private User user = new User("someEmail1", "someLogin1", "somePassword1", LocalDate.now());
     private Auction auction1 = new Auction("someTitle1", "someDescription1", 200.0F,
             LocalDateTime.now(), LocalDateTime.now().plusDays(2), user);
@@ -41,6 +39,7 @@ public class AuctionDaoTest {
     public void findById(){
         auctionDao.save(auction1);
         long idBefore = auction1.getId();
+
         long idAfter = auctionDao.findById(auction1.getId()).getId();
 
         assertEquals(idBefore, idAfter);
@@ -70,6 +69,19 @@ public class AuctionDaoTest {
         String titleAfterUpdate = auctionDao.findById(updatedAuction.getId()).getTitle();
 
         assertNotEquals(titleAfterUpdate, titleBeforeUpdate);
+    }
+
+
+    @Test
+    @Rollback
+    public void findByOwnerId(){
+        auctionDao.save(auction1);
+        auctionDao.save(auction2);
+        long userId = user.getId();
+
+        List<Auction> list = auctionDao.findByOwnerId(userId);
+
+        assertEquals(2L, list.size());
     }
 
     @Test
