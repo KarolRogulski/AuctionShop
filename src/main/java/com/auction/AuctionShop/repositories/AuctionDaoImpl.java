@@ -31,7 +31,7 @@ public class AuctionDaoImpl extends AbstractRepository<Auction> implements Aucti
 
     @Override
     public void update(Auction auctionUpdated){
-            log.info("Update " + getClazz() +" with id= " + auctionUpdated.getId());
+            log.info("Update " + getClazz() +" with id " + auctionUpdated.getId());
             Auction auctionFromDB = this.findById(auctionUpdated.getId());
             auctionFromDB.setAuctionEnd(auctionUpdated.getAuctionEnd());
             auctionFromDB.setTitle(auctionUpdated.getTitle());

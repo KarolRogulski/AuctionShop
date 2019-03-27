@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 public class User implements AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
+	@Column(name = "USER_ID")
 	private long id;
 
 	@Column(name = "email")
