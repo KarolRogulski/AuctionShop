@@ -13,19 +13,19 @@ public class User implements AbstractEntity {
 	@Column(name = "USER_ID")
 	private long id;
 
-	@Column(name = "email")
+	@Column(name = "EMAIL")
 	private String email;
 
-	@Column(name = "login")
+	@Column(name = "LOGIN")
 	private String login;
 
-	@Column(name = "password")
+	@Column(name = "PASSWORD")
 	private String password;
 
-	@Column(name = "date_of_birth")
+	@Column(name = "DATE_OF_BIRTH")
 	private LocalDate dateOfBirth;
 
-	@Column(name = "user_rating")
+	@Column(name = "USER_RATING")
 	private float userRating;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
