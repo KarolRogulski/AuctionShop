@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements AbstractEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

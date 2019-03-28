@@ -6,13 +6,8 @@ import com.auction.AuctionShop.domain.Comment;
 
 public interface CommentDao {
 
-	public Comment findById(long id);
+	List<Comment> findByAuctionId(long id);
 	
-	public List<Comment> findByAuctionId(long id);
+	void update(Comment comment);
 	
-	public void save(Comment comment);
-	
-	public void update(Comment comment);
-	
-	public void delete(Comment comment);
 }
