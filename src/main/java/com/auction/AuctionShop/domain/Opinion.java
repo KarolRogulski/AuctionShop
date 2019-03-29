@@ -3,29 +3,29 @@ package com.auction.AuctionShop.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "opinion")
+@Table(name = "OPINION")
 public class Opinion implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "opinion_id")
+    @Column(name = "OPINION_ID")
     private long id;
 
-    @Column(name = "rate")
+    @Column(name = "RATE")
     private float rate;
 
-    @Column(name = "opinion_title")
+    @Column(name = "TITLE")
     private String title;
 
-    @Column(name = "opinion_description")
+    @Column(name = "DESCRIPTION")
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "AUTHOR_ID")
     private User opinionAuthor;
 
 
@@ -33,12 +33,10 @@ public class Opinion implements AbstractEntity {
     protected Opinion() {
     }
 
-    public Opinion(float rate, String title, String description, User user, User opinionAuthor) {
+    public Opinion(float rate, String title, String description) {
         this.rate = rate;
         this.title = title;
         this.description = description;
-        this.user = user;
-        this.opinionAuthor = opinionAuthor;
     }
 
     @Override

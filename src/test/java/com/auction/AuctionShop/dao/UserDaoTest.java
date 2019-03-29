@@ -1,24 +1,26 @@
 package com.auction.AuctionShop.dao;
 
-import java.io.File;
-import java.time.LocalDate;
-import java.util.List;
-
+import com.auction.AuctionShop.configuration.DataBaseConfiguration;
+import com.auction.AuctionShop.domain.User;
+import com.auction.AuctionShop.repositories.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.auction.AuctionShop.configuration.DataBaseConfiguration;
-import com.auction.AuctionShop.domain.User;
-import com.auction.AuctionShop.repositories.UserDao;
+import java.time.LocalDate;
+import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
+@Rollback
+@Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataBaseConfiguration.class)
 @Sql("classpath:user-test-data.sql")
@@ -28,9 +30,7 @@ public class UserDaoTest {
     private UserDao userDao;
 
     @Test
-    @Transactional
-    @Rollback
-    public void findUserByIdTest() {
+    public void findUserById() {
         long idFromTestUser1 = 1L;
 
         long idFromUserDao = userDao.findById(1L).getId();
@@ -38,9 +38,14 @@ public class UserDaoTest {
         assertEquals(idFromUserDao, idFromTestUser1);
     }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void voidFindNonExistingUserById() {
+        long nonExistingId = 531235L;
+
+        userDao.findById(nonExistingId);
+    }
+
     @Test
-    @Transactional
-    @Rollback
     public void findByLogin() {
         String testLoginBefore = "someLogin2";
 
@@ -50,18 +55,30 @@ public class UserDaoTest {
         assertEquals(loginFromUserDao, testLoginBefore);
     }
 
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void voidFindNonExistingUserByLogin() {
+        String nonExistingLogin = "nonExistingLogin";
+
+        userDao.findByLogin(nonExistingLogin);
+    }
+
     @Test
-    @Transactional
-    @Rollback
     public void returnAllUsers() {
         List<User> usersList = userDao.getAll();
 
         assertEquals(3, usersList.size());
     }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void updateWithNotMatchingId() {
+        User updatedUser = new User("updatedEmail1", "updatedLogin1", "updatedPassword1", LocalDate.now());
+        updatedUser.setId(143242L);
+
+        userDao.update(updatedUser);
+    }
+
     @Test
-    @Transactional
-    @Rollback
     public void update() {
         String loginBeforeUpdate = "someLogin2";
         User updatedUser = new User("updatedEmail1", "updatedLogin1", "updatedPassword1", LocalDate.now());
@@ -73,8 +90,6 @@ public class UserDaoTest {
     }
 
     @Test
-    @Transactional
-    @Rollback
     public void delete() {
         User user = userDao.findById(1L);
 
@@ -82,5 +97,13 @@ public class UserDaoTest {
 
         int usersLeftInDB = userDao.getAll().size();
         assertEquals(usersLeftInDB, 2);
+    }
+
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void deleteWithNonExistingUser(){
+        User user = new User("email", "login", "password", LocalDate.now());
+        user.setId(1533L);
+
+        userDao.delete(user);
     }
 }
