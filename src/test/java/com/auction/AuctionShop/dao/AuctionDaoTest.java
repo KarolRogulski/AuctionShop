@@ -2,100 +2,108 @@ package com.auction.AuctionShop.dao;
 
 import com.auction.AuctionShop.configuration.DataBaseConfiguration;
 import com.auction.AuctionShop.domain.Auction;
-import com.auction.AuctionShop.domain.User;
 import com.auction.AuctionShop.repositories.AuctionDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
+@Rollback
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DataBaseConfiguration.class)
+@Sql({"classpath:user-test-data.sql", "classpath:auction-test-data.sql"})
 public class AuctionDaoTest {
 
     @Autowired
     private AuctionDao auctionDao;
-
-    private User user = new User("someEmail1", "someLogin1", "somePassword1", LocalDate.now());
-    private Auction auction1 = new Auction("someTitle1", "someDescription1", 200.0F,
-            LocalDateTime.now(), LocalDateTime.now().plusDays(2), user);
-    private Auction auction2 = new Auction("someTitle2", "someDescription2", 400.0F,
-            LocalDateTime.now(), LocalDateTime.now().plusDays(4), user);
-
+    long nonExistingId = 5312431L;
 
     @Test
-    @Rollback
-    public void findById(){
-        auctionDao.save(auction1);
-        long idBefore = auction1.getId();
+    public void findById() {
+        long idBeforeTest = 1L;
+        long idAfterTest = auctionDao.findById(1L).getId();
 
-        long idAfter = auctionDao.findById(auction1.getId()).getId();
+        assertEquals(idBeforeTest, idAfterTest);
+    }
 
-        assertEquals(idBefore, idAfter);
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void findByNonExistingId() {
+        auctionDao.findById(nonExistingId);
     }
 
     @Test
-    @Rollback
-    public void findAll(){
-        auctionDao.save(auction1);
-        auctionDao.save(auction2);
-
+    public void findAll() {
         List<Auction> auctionList = auctionDao.getAll();
 
         assertEquals(2, auctionList.size());
     }
 
     @Test
-    @Rollback
-    public void update(){
-        String titleBeforeUpdate = auction1.getTitle();
-        auctionDao.save(auction1);
-        Auction updatedAuction = new Auction("someTitle2", "someDescription2", 400.0F,
-                LocalDateTime.now(), LocalDateTime.now().plusDays(4), user);
-        updatedAuction.setId(auction1.getId());
+    public void update() {
+        Auction auction = auctionDao.findById(2L);
+        Auction updatedAuction = new Auction("updatedTitle2", "someDescription2", 400.0F,
+                LocalDateTime.now(), LocalDateTime.now().plusDays(4));
+        updatedAuction.setId(auction.getId());
+        String titleBeforeUpdate = auction.getTitle();
 
         auctionDao.update(updatedAuction);
-        String titleAfterUpdate = auctionDao.findById(updatedAuction.getId()).getTitle();
+        String titleAfterUpdate = auctionDao.findById(auction.getId()).getTitle();
 
         assertNotEquals(titleAfterUpdate, titleBeforeUpdate);
     }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void updateWithNonExistingAuction() {
+        Auction auction = new Auction("updatedTitle2", "someDescription2", 400.0F,
+                LocalDateTime.now(), LocalDateTime.now().plusDays(4));
+        auction.setId(nonExistingId);
+        
+        auctionDao.update(auction);
+    }
 
     @Test
-    @Rollback
-    public void findByOwnerId(){
-        auctionDao.save(auction1);
-        auctionDao.save(auction2);
-        long userId = user.getId();
+    public void findByOwnerId() {
+        long userId = 1L;
 
         List<Auction> list = auctionDao.findByOwnerId(userId);
 
-        assertEquals(2L, list.size());
+        assertEquals(1, list.size());
     }
 
     @Test
-    @Rollback
-    public void delete(){
-        auctionDao.save(auction1);
-        auctionDao.save(auction2);
+    public void findByNonExistingOwnerId() {
+        List<Auction> list = auctionDao.findByOwnerId(nonExistingId);
 
-        auctionDao.delete(auction1);
-
-        int sizeAfterDelete = auctionDao.getAll().size();
-
-        assertEquals(1, sizeAfterDelete);
+        assertTrue(list.isEmpty());
     }
 
+    @Test
+    public void delete() {
+        Auction auction = auctionDao.findById(1L);
 
+        int result = auctionDao.delete(auction);
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void deleteNonExistingAuction(){
+        Auction auction = new Auction("updatedTitle2", "someDescription2", 400.0F,
+                LocalDateTime.now(), LocalDateTime.now().plusDays(4));
+        auction.setId(nonExistingId);
+
+        int result = auctionDao.delete(auction);
+
+        assertEquals(0, result);
+    }
 }
