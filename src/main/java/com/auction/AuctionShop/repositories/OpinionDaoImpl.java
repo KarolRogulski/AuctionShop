@@ -32,6 +32,7 @@ public class OpinionDaoImpl extends AbstractRepository<Opinion> implements Opini
     }
 
     //Return all opinions written by user with given id
+    //If there are no opinions with given id, return empty list
     @Override
     public List<Opinion> findByAuthorId(long id) {
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
@@ -53,6 +54,7 @@ public class OpinionDaoImpl extends AbstractRepository<Opinion> implements Opini
     }
 
     //Return all opinions for user with given id
+    //If there are no opinions with given id, return empty list
     @Override
     public List<Opinion> findByUserId(long id) {
         CriteriaBuilder builder = getSession().getCriteriaBuilder();

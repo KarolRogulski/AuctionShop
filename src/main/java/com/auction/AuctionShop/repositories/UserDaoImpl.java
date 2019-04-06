@@ -58,5 +58,4 @@ public class UserDaoImpl extends AbstractRepository<User> implements UserDao {
         userFromDB.setPassword(userUpdated.getPassword());
         userFromDB.setDateOfBirth(userUpdated.getDateOfBirth());
     }
-
 }
