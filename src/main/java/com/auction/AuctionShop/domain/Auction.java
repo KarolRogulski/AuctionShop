@@ -16,27 +16,27 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "auction")
+@Table(name = "AUCTION")
 public class Auction implements AbstractEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "auction_id")
+	@Column(name = "AUCTION_ID")
 	private long id;
 
-	@Column(name = "auction_title")
+	@Column(name = "TITLE")
 	private String title;
 
-	@Column(name = "description")
+	@Column(name = "DESCRIPTION")
 	private String description;
 
-	@Column(name = "starting_price")
+	@Column(name = "PRICE")
 	private float startingPrice;
 
-	@Column(name = "auction_beginning")
+	@Column(name = "AUCTION_BEGINNING")
 	private LocalDateTime auctionBeginning;
 
-	@Column(name = "auction_end")
+	@Column(name = "AUCTION_END")
 	private LocalDateTime auctionEnd;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auction", orphanRemoval = true)
@@ -45,8 +45,8 @@ public class Auction implements AbstractEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auction", orphanRemoval = true)
 	private List<Offer> offers;
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "USER_ID")
 	private User user;
 
 	// Constructor for JPA
@@ -54,13 +54,12 @@ public class Auction implements AbstractEntity{
 	}
 
 	public Auction(String title, String description, float startingPrice, LocalDateTime auctionBeginning,
-			LocalDateTime auctionEnd, User user) {
+			LocalDateTime auctionEnd) {
 		this.title = title;
 		this.description = description;
 		this.startingPrice = startingPrice;
 		this.auctionBeginning = auctionBeginning;
 		this.auctionEnd = auctionEnd;
-		this.user = user;
 	}
 
 	public long getId() {

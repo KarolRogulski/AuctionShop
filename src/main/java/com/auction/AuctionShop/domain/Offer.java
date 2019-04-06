@@ -11,33 +11,31 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "offer")
-public class Offer {
+@Table(name = "OFFER")
+public class Offer implements AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "offer_id")
+	@Column(name = "OFFER_ID")
 	private long id;
 
-	@Column(name = "ammount_of_money")
+	@Column(name = "AMOUNT_OF_MONEY")
 	private float ammountOfMoney;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "auction_id")
+	@JoinColumn(name = "AUCTION_ID")
 	private Auction auction;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "USER_ID")
 	private User offerOwner;
 
 	// Constructor for JPA
 	protected Offer() {
 	}
 
-	public Offer(float ammountOfMoney, Auction auction, User offerOwner) {
+	public Offer(float ammountOfMoney) {
 		this.ammountOfMoney = ammountOfMoney;
-		this.auction = auction;
-		this.offerOwner = offerOwner;
 	}
 
 	public long getId() {

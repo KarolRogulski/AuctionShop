@@ -13,41 +13,39 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "COMMENT")
 public class Comment implements AbstractEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "comment_id")
+	@Column(name = "COMMENT_ID")
 	private long id;
 
-	@Column(name = "comment_title")
+	@Column(name = "TITLE")
 	private String title;
 
-	@Column(name = "comment_content")
+	@Column(name = "CONTENT")
 	private String content;
 
-	@Column(name = "commment_add_date")
+	@Column(name = "ADDED_DATE")
 	private LocalDateTime added;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name ="user_id")
+	@JoinColumn(name ="USER_ID")
 	private User owner;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "auction_id")
+	@JoinColumn(name = "AUCTION_ID")
 	private Auction auction;
 
 	// Constructor for JPA
 	protected Comment() {
 	}
 
-	public Comment(String title, String content, LocalDateTime added, User owner, Auction auction) {
+	public Comment(String title, String content, LocalDateTime added) {
 		this.title = title;
 		this.content = content;
 		this.added = added;
-		this.owner = owner;
-		this.auction = auction;
 	}
 
 	public long getId() {
