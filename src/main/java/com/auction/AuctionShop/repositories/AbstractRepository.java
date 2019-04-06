@@ -62,7 +62,7 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
     public abstract void update(T entity);
 
     @Override
-    public void delete(T entity) {
+    public int delete(T entity) {
         log.info("Delete " + clazz + " with id= " + entity.getId());
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
 
@@ -72,7 +72,7 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
         criteria.where(builder.equal(root.get("id"), entity.getId()));
 
         Query<T> query = getSession().createQuery(criteria);
-        query.executeUpdate();
+        return query.executeUpdate();
     }
 
     private Session getSession() {
