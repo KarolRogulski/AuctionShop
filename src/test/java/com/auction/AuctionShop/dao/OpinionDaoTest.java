@@ -18,8 +18,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 @Transactional
 @Rollback
@@ -30,9 +29,10 @@ public class OpinionDaoTest {
 
     @Autowired
     private OpinionDao opinionDao;
+    private long nonExistingId = 85920L;
 
     @Test
-    public void findByIdTest() {
+    public void findById() {
         long idFromTestOpinion = 1L;
         long idFromOpinionDao = opinionDao.findById(idFromTestOpinion).getId();
 
@@ -40,8 +40,8 @@ public class OpinionDaoTest {
     }
 
     @Test(expected = EmptyResultDataAccessException.class)
-    public void findWithNonExistingId(){
-        
+    public void findWithNonExistingId() {
+        opinionDao.findById(nonExistingId);
     }
 
     @Test
@@ -54,10 +54,24 @@ public class OpinionDaoTest {
     }
 
     @Test
+    public void findWithNonExistingAuthorId() {
+        List<Opinion> list = opinionDao.findByAuthorId(nonExistingId);
+
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
     public void findByUserId() {
         List<Opinion> opinions = opinionDao.findByUserId(2L);
 
         assertEquals(1, opinions.size());
+    }
+
+    @Test
+    public void findWithNonExistingUserId() {
+        List<Opinion> list = opinionDao.findByUserId(nonExistingId);
+
+        assertTrue(list.isEmpty());
     }
 
     @Test
@@ -80,12 +94,30 @@ public class OpinionDaoTest {
         assertNotEquals(beforeUpdateDescription, opinionDescriptionAfter);
     }
 
+    @Test(expected = EmptyResultDataAccessException.class)
+    public void updateWithNonExistingOpinion() {
+        Opinion updatedOpinion = new Opinion(2.5F, "someTitle1", "updatedDescription");
+        updatedOpinion.setId(nonExistingId);
+
+        opinionDao.update(updatedOpinion);
+    }
+
     @Test
     public void delete() {
         Opinion opinion = opinionDao.findById(1L);
 
-        opinionDao.delete(opinion);
+        int result = opinionDao.delete(opinion);
 
-        assertEquals(1, opinionDao.getAll().size());
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void deleteWithNonExistingOpinion() {
+        Opinion opinion = new Opinion(2.5F, "someTitle1", "updatedDescription");
+        opinion.setId(nonExistingId);
+
+        int result = opinionDao.delete(opinion);
+
+        assertEquals(0, result);
     }
 }

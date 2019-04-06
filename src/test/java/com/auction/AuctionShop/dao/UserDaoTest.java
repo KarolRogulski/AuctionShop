@@ -39,7 +39,7 @@ public class UserDaoTest {
     }
 
     @Test(expected = EmptyResultDataAccessException.class)
-    public void voidFindNonExistingUserById() {
+    public void findNonExistingUserById() {
         long nonExistingId = 531235L;
 
         userDao.findById(nonExistingId);
@@ -93,17 +93,18 @@ public class UserDaoTest {
     public void delete() {
         User user = userDao.findById(1L);
 
-        userDao.delete(user);
+        int result = userDao.delete(user);
 
-        int usersLeftInDB = userDao.getAll().size();
-        assertEquals(usersLeftInDB, 2);
+        assertEquals(result, 1);
     }
 
-    @Test(expected = EmptyResultDataAccessException.class)
+    @Test
     public void deleteWithNonExistingUser(){
         User user = new User("email", "login", "password", LocalDate.now());
         user.setId(1533L);
 
-        userDao.delete(user);
+        int result = userDao.delete(user);
+
+        assertEquals(0, result);
     }
 }
