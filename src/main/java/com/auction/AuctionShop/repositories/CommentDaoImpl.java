@@ -17,7 +17,7 @@ import java.util.List;
 public class CommentDaoImpl extends AbstractRepository<Comment> implements CommentDao {
 
     private SessionFactory sessionFactory;
-    public static final Logger log = LogManager.getLogger(CommentDaoImpl.class);
+    private static final Logger log = LogManager.getLogger(CommentDaoImpl.class);
 
     @Autowired
     public CommentDaoImpl(SessionFactory sessionFactory){

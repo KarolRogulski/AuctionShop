@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.auction.AuctionShop.domain.Comment;
 
-public interface CommentDao {
+public interface CommentDao extends Repository<Comment>{
 
 	List<Comment> findByAuctionId(long id);
 	
