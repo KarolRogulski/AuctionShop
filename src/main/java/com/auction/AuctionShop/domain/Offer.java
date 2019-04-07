@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "OFFER")
@@ -20,7 +21,10 @@ public class Offer implements AbstractEntity {
 	private long id;
 
 	@Column(name = "AMOUNT_OF_MONEY")
-	private float ammountOfMoney;
+	private float amountOfMoney;
+
+	@Column(name = "ADDED_DATE")
+	private LocalDateTime added;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AUCTION_ID")
@@ -34,8 +38,9 @@ public class Offer implements AbstractEntity {
 	protected Offer() {
 	}
 
-	public Offer(float ammountOfMoney) {
-		this.ammountOfMoney = ammountOfMoney;
+	public Offer(float ammountOfMoney, LocalDateTime added) {
+		this.added = added;
+		this.amountOfMoney = ammountOfMoney;
 	}
 
 	public long getId() {
@@ -46,12 +51,12 @@ public class Offer implements AbstractEntity {
 		this.id = id;
 	}
 
-	public float getAmmountOfMoney() {
-		return ammountOfMoney;
+	public float getAmountOfMoney() {
+		return amountOfMoney;
 	}
 
-	public void setAmmountOfMoney(float ammountOfMoney) {
-		this.ammountOfMoney = ammountOfMoney;
+	public void setAmountOfMoney(float amountOfMoney) {
+		this.amountOfMoney = amountOfMoney;
 	}
 
 	public Auction getAuction() {
@@ -70,4 +75,11 @@ public class Offer implements AbstractEntity {
 		this.offerOwner = offerOwner;
 	}
 
+	public LocalDateTime getAdded() {
+		return added;
+	}
+
+	public void setAdded(LocalDateTime added) {
+		this.added = added;
+	}
 }
