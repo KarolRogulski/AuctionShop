@@ -1,7 +1,6 @@
 package com.auction.AuctionShop.dao;
 
-import com.auction.AuctionShop.domain.Opinion;
-import com.auction.AuctionShop.domain.User;
+import com.auction.AuctionShop.entities.Opinion;
 import com.auction.AuctionShop.repositories.OpinionDao;
 import config.DataBaseConfigurationTest;
 import org.junit.Test;
@@ -14,8 +13,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.*;

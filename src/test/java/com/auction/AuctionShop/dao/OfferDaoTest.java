@@ -1,6 +1,6 @@
 package com.auction.AuctionShop.dao;
 
-import com.auction.AuctionShop.domain.Offer;
+import com.auction.AuctionShop.entities.Offer;
 import com.auction.AuctionShop.repositories.OfferDao;
 import config.DataBaseConfigurationTest;
 import org.junit.Test;

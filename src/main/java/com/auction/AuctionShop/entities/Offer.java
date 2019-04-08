@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.domain;
+package com.auction.AuctionShop.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

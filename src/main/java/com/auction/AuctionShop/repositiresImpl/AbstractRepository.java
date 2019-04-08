@@ -1,6 +1,7 @@
-package com.auction.AuctionShop.repositories;
+package com.auction.AuctionShop.repositiresImpl;
 
-import com.auction.AuctionShop.domain.AbstractEntity;
+import com.auction.AuctionShop.entities.AbstractEntity;
+import com.auction.AuctionShop.repositories.Repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.criteria.*;
 import java.util.List;
 
-public abstract class AbstractRepository<T extends AbstractEntity> implements Repository<T>{
+public abstract class AbstractRepository<T extends AbstractEntity> implements Repository<T> {
 
     @Autowired
     private SessionFactory sessionFactory;

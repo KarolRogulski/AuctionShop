@@ -2,7 +2,7 @@ package com.auction.AuctionShop.repositories;
 
 import java.util.List;
 
-import com.auction.AuctionShop.domain.Comment;
+import com.auction.AuctionShop.entities.Comment;
 
 public interface CommentDao extends Repository<Comment>{
 

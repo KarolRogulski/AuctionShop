@@ -1,7 +1,8 @@
-package com.auction.AuctionShop.repositories;
+package com.auction.AuctionShop.repositiresImpl;
 
-import com.auction.AuctionShop.domain.Auction;
-import com.auction.AuctionShop.domain.Comment;
+import com.auction.AuctionShop.entities.Auction;
+import com.auction.AuctionShop.entities.Comment;
+import com.auction.AuctionShop.repositories.CommentDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;

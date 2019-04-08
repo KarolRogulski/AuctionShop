@@ -1,6 +1,6 @@
 package com.auction.AuctionShop.services;
 
-import com.auction.AuctionShop.domain.User;
+import com.auction.AuctionShop.entities.User;
 
 public interface UserService {
 	

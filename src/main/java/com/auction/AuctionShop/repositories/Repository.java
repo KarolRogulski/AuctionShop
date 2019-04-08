@@ -1,6 +1,6 @@
 package com.auction.AuctionShop.repositories;
 
-import com.auction.AuctionShop.domain.AbstractEntity;
+import com.auction.AuctionShop.entities.AbstractEntity;
 
 import java.util.List;
 

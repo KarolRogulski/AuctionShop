@@ -1,10 +1,8 @@
 package com.auction.AuctionShop.repositories;
 
-import com.auction.AuctionShop.domain.Offer;
-import com.auction.AuctionShop.domain.User;
+import com.auction.AuctionShop.entities.Offer;
 
 import java.util.List;
-import java.util.Set;
 
 public interface OfferDao extends Repository<Offer>{
 

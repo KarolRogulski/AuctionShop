@@ -1,7 +1,7 @@
 package com.auction.AuctionShop.dao;
 
 import com.auction.AuctionShop.configuration.DataBaseConfiguration;
-import com.auction.AuctionShop.domain.User;
+import com.auction.AuctionShop.entities.User;
 import com.auction.AuctionShop.repositories.UserDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;

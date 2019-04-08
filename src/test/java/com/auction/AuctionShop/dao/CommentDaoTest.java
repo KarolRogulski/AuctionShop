@@ -1,6 +1,6 @@
 package com.auction.AuctionShop.dao;
 
-import com.auction.AuctionShop.domain.Comment;
+import com.auction.AuctionShop.entities.Comment;
 import com.auction.AuctionShop.repositories.CommentDao;
 import config.DataBaseConfigurationTest;
 import org.junit.Test;
