@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.repositiresImpl;
+package com.auction.AuctionShop.repositoriesImpl;
 
 import com.auction.AuctionShop.entities.User;
 import com.auction.AuctionShop.repositories.UserDao;
@@ -36,7 +36,7 @@ public class UserDaoImpl extends AbstractRepository<User> implements UserDao {
     //Return user by given login
     @Override
     public User findByLogin(String login) {
-        log.info("Get user with login: " + login);
+        log.debug("Get user with login: " + login);
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
 
         CriteriaQuery<User> criteria = builder.createQuery(User.class);
@@ -52,7 +52,7 @@ public class UserDaoImpl extends AbstractRepository<User> implements UserDao {
 
     @Override
     public void update(User userUpdated) {
-        log.info("Update user with id= " + userUpdated.getId());
+        log.debug("Update user with id= " + userUpdated.getId());
         User userFromDB = this.findById(userUpdated.getId());
         userFromDB.setLogin(userUpdated.getLogin());
         userFromDB.setEmail(userUpdated.getEmail());

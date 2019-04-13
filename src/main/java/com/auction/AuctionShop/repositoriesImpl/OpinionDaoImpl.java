@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.repositiresImpl;
+package com.auction.AuctionShop.repositoriesImpl;
 
 import com.auction.AuctionShop.entities.Opinion;
 import com.auction.AuctionShop.entities.User;
@@ -20,7 +20,7 @@ import java.util.List;
 public class OpinionDaoImpl extends AbstractRepository<Opinion> implements OpinionDao {
 
     private SessionFactory sessionFactory;
-    private static final Logger log = LogManager.getLogger(OpinionDaoImpl.class);
+    public static final Logger log = LogManager.getLogger(OpinionDaoImpl.class);
 
     @Autowired
     public OpinionDaoImpl(SessionFactory sessionFactory) {

@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.repositiresImpl;
+package com.auction.AuctionShop.repositoriesImpl;
 
 import com.auction.AuctionShop.entities.Auction;
 import com.auction.AuctionShop.entities.Comment;
@@ -18,7 +18,7 @@ import java.util.List;
 public class CommentDaoImpl extends AbstractRepository<Comment> implements CommentDao {
 
     private SessionFactory sessionFactory;
-    private static final Logger log = LogManager.getLogger(CommentDaoImpl.class);
+    public static final Logger log = LogManager.getLogger(CommentDaoImpl.class);
 
     @Autowired
     public CommentDaoImpl(SessionFactory sessionFactory){
@@ -28,8 +28,10 @@ public class CommentDaoImpl extends AbstractRepository<Comment> implements Comme
 
     private Session getSession(){ return sessionFactory.getCurrentSession();}
 
+    //Returning comments list based on auction id
     @Override
     public List<Comment> findByAuctionId(long id) {
+        log.debug("Get list of comments by id of auction: " + id);
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Comment> criteria = builder.createQuery(getClazz());
         Root<Comment> root = criteria.from(getClazz());
@@ -43,13 +45,13 @@ public class CommentDaoImpl extends AbstractRepository<Comment> implements Comme
         );
 
         List<Comment> list = getSession().createQuery(criteria).getResultList();
-        log.info("Returned " + list.size() + " comments where auction's id " + id);
+        log.debug("Returned " + list.size() + " comments where auction's id " + id);
         return list;
     }
 
     @Override
     public void update(Comment updated) {
-        log.info("Updating " + getClazz() + "with id " + updated.getId());
+        log.debug("Updating " + getClazz() + "with id " + updated.getId());
         Comment commentFromDB = this.findById(updated.getId());
         commentFromDB.setTitle(updated.getTitle());
         commentFromDB.setContent(updated.getContent());

@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.repositiresImpl;
+package com.auction.AuctionShop.repositoriesImpl;
 
 import com.auction.AuctionShop.entities.AbstractEntity;
 import com.auction.AuctionShop.repositories.Repository;
@@ -19,20 +19,21 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
     private static final Logger log = LogManager.getLogger();
 
     private Class<T> clazz;
-    protected void setClazz( Class< T > clazzToSet ) {
+    void setClazz( Class< T > clazzToSet ) {
         this.clazz = clazzToSet;
     }
 
+    @Override
     public Class<T> getClazz(){ return clazz;}
 
     public void save(T entity){
+        log.debug("Saving " + clazz + " with id: " + entity.getId());
         getSession().persist(entity);
-        log.info("Saving " + clazz + " with id: " + entity.getId());
     }
 
     //Return all
     public List<T> getAll(){
-        log.info("Get all " + clazz );
+        log.debug("Get all " + clazz );
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
 
         CriteriaQuery<T> criteria = builder.createQuery(clazz);
@@ -40,13 +41,14 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
         criteria.select(root);
 
         Query<T> query = getSession().createQuery(criteria);
+        log.debug("Return all " + clazz);
         return query.getResultList();
     }
 
     //Return by given id
     @Override
     public T findById(long id) {
-        log.info("Get " + clazz + " with id=" + id);
+        log.debug("Get " + clazz + " with id=" + id);
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
 
         CriteriaQuery<T> criteria = builder.createQuery(clazz);
@@ -57,14 +59,17 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
 
         Query<T> query = getSession().createQuery(criteria);
         query.setParameter(idParameter, id);
+        log.debug("Return " + clazz + " with id: " + id);
         return query.getSingleResult();
     }
 
     public abstract void update(T entity);
 
+    //Deleting given entity
+    //Return integer with quantity of deleted entities
     @Override
     public int delete(T entity) {
-        log.info("Delete " + clazz + " with id= " + entity.getId());
+        log.debug("Delete " + clazz + " with id= " + entity.getId());
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
 
         CriteriaDelete<T> criteria = builder.createCriteriaDelete(clazz);
@@ -73,7 +78,9 @@ public abstract class AbstractRepository<T extends AbstractEntity> implements Re
         criteria.where(builder.equal(root.get("id"), entity.getId()));
 
         Query<T> query = getSession().createQuery(criteria);
-        return query.executeUpdate();
+        int result = query.executeUpdate();
+        log.debug("Deleted " + clazz + " with result: " + result);
+        return result;
     }
 
     private Session getSession() {

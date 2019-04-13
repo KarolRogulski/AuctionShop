@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.repositiresImpl;
+package com.auction.AuctionShop.repositoriesImpl;
 
 import com.auction.AuctionShop.entities.Auction;
 import com.auction.AuctionShop.entities.Offer;
@@ -19,7 +19,7 @@ import java.util.List;
 public class OfferDaoImpl extends AbstractRepository<Offer> implements OfferDao {
 
     private SessionFactory sessionFactory;
-    private static final Logger log = LogManager.getLogger(OfferDaoImpl.class);
+    public static final Logger log = LogManager.getLogger(OfferDaoImpl.class);
 
     @Autowired
     public OfferDaoImpl(SessionFactory sessionFactory){
@@ -33,12 +33,15 @@ public class OfferDaoImpl extends AbstractRepository<Offer> implements OfferDao 
 
     @Override
     public void update(Offer updated){
+        log.debug("Update offer with id:" + updated.getId());
         Offer offerFromDB = this.findById(updated.getId());
         offerFromDB.setAmountOfMoney(updated.getAmountOfMoney());
     }
 
+    //Return lis of offers by given auction id
     @Override
     public List<Offer> findByAuctionId(long id){
+        log.debug("Get offers list with auction id: " + id);
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Offer> criteria = builder.createQuery(getClazz());
         Root<Offer> root = criteria.from(getClazz());
@@ -50,12 +53,14 @@ public class OfferDaoImpl extends AbstractRepository<Offer> implements OfferDao 
         criteria.where(builder.and(predicates.toArray(new Predicate[0])));
 
         List<Offer> list = getSession().createQuery(criteria).getResultList();
-        log.info("Returned " + list.size() + " offers where auction's id " + id);
+        log.debug("Returned " + list.size() + " offers where auction's id " + id);
         return list;
     }
 
+    //Return list of offers by given offer owner id
     @Override
     public List<Offer> findByOfferOwnerId(long id){
+        log.debug("Get offers by user id: " + id);
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Offer> criteria = builder.createQuery(getClazz());
         Root<Offer> root = criteria.from(getClazz());
@@ -67,7 +72,7 @@ public class OfferDaoImpl extends AbstractRepository<Offer> implements OfferDao 
         criteria.where(builder.and(predicates.toArray(new Predicate[predicates.size()])));
 
         List<Offer> list = getSession().createQuery(criteria).getResultList();
-        log.info("Returned " + list.size() + " offers where user's id " + id);
+        log.debug("Returned " + list.size() + " offers where user's id " + id);
         return list;
     }
 }

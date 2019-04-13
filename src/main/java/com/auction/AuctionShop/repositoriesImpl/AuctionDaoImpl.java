@@ -1,4 +1,4 @@
-package com.auction.AuctionShop.repositiresImpl;
+package com.auction.AuctionShop.repositoriesImpl;
 
 import com.auction.AuctionShop.entities.Auction;
 import com.auction.AuctionShop.entities.User;
@@ -18,7 +18,7 @@ import java.util.List;
 public class AuctionDaoImpl extends AbstractRepository<Auction> implements AuctionDao {
 
     private SessionFactory sessionFactory;
-    private static final Logger log = LogManager.getLogger(AuctionDaoImpl.class);
+    public static final Logger log = LogManager.getLogger(AuctionDaoImpl.class);
 
     @Autowired
     public AuctionDaoImpl(SessionFactory sessionFactory){
@@ -32,7 +32,7 @@ public class AuctionDaoImpl extends AbstractRepository<Auction> implements Aucti
 
     @Override
     public void update(Auction auctionUpdated){
-            log.info("Update " + getClazz() +" with id " + auctionUpdated.getId());
+            log.debug("Update " + getClazz() +" with id " + auctionUpdated.getId());
             Auction auctionFromDB = this.findById(auctionUpdated.getId());
             auctionFromDB.setAuctionEnd(auctionUpdated.getAuctionEnd());
             auctionFromDB.setTitle(auctionUpdated.getTitle());
@@ -41,6 +41,7 @@ public class AuctionDaoImpl extends AbstractRepository<Auction> implements Aucti
 
     @Override
     public List<Auction> findByOwnerId(long id){
+        log.debug("Get list of " + getClazz() + " with owner id: " + id);
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Auction> criteria = builder.createQuery(getClazz());
         Root<Auction> root = criteria.from(getClazz());
@@ -54,7 +55,7 @@ public class AuctionDaoImpl extends AbstractRepository<Auction> implements Aucti
         );
 
         List<Auction> auctionsList = getSession().createQuery(criteria).getResultList();
-        log.info("Returned " + auctionsList.size() + "auctions where owner Id: " + id);
+        log.debug("Returned " + auctionsList.size() + "auctions where owner Id: " + id);
         return auctionsList;
     }
 }
