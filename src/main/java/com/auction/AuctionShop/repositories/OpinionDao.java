@@ -1,8 +1,8 @@
 package com.auction.AuctionShop.repositories;
 
-import java.util.List;
-
 import com.auction.AuctionShop.entities.Opinion;
+
+import java.util.List;
 
 public interface OpinionDao extends Repository<Opinion> {
 

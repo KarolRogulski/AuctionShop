@@ -16,4 +16,5 @@ public interface Repository<T extends AbstractEntity> {
 
     int delete(T entity);
 
+    Class<T> getClazz();
 }
