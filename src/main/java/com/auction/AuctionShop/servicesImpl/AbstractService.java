@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-@org.springframework.stereotype.Service
 @Transactional
 public abstract class AbstractService<T extends AbstractEntity> implements Service<T> {
 
