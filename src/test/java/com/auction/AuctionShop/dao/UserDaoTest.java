@@ -1,8 +1,8 @@
 package com.auction.AuctionShop.dao;
 
-import com.auction.AuctionShop.configuration.DataBaseConfiguration;
 import com.auction.AuctionShop.entities.User;
 import com.auction.AuctionShop.repositories.UserDao;
+import config.DataBaseConfigurationTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotEquals;
 @Rollback
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DataBaseConfiguration.class)
+@ContextConfiguration(classes = DataBaseConfigurationTest.class)
 @Sql("classpath:user-test-data.sql")
 public class UserDaoTest {
 

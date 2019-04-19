@@ -1,8 +1,8 @@
 package com.auction.AuctionShop.dao;
 
-import com.auction.AuctionShop.configuration.DataBaseConfiguration;
 import com.auction.AuctionShop.entities.Auction;
 import com.auction.AuctionShop.repositories.AuctionDao;
+import config.DataBaseConfigurationTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 @Rollback
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = DataBaseConfiguration.class)
+@ContextConfiguration(classes = {DataBaseConfigurationTest.class})
 @Sql({"classpath:user-test-data.sql", "classpath:auction-test-data.sql"})
 public class AuctionDaoTest {
 
