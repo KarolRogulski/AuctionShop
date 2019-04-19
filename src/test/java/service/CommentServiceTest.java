@@ -1,6 +1,5 @@
 package service;
 
-import com.auction.AuctionShop.entities.Auction;
 import com.auction.AuctionShop.entities.Comment;
 import com.auction.AuctionShop.exceptions.NotFoundException;
 import com.auction.AuctionShop.repositories.CommentDao;
