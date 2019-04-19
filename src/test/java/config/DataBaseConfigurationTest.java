@@ -1,6 +1,9 @@
 package config;
 
-import com.auction.AuctionShop.App;
+import com.auction.AuctionShop.repositories.AuctionDao;
+import com.auction.AuctionShop.repositoriesImpl.AuctionDaoImpl;
+import com.auction.AuctionShop.services.AuctionService;
+import com.auction.AuctionShop.servicesImpl.AuctionServiceImpl;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +22,8 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource({ "dataBaseConfig.properties" })
-@ComponentScan(basePackageClasses = { App.class })
+@ComponentScan(basePackageClasses = {AuctionDao.class, AuctionDaoImpl.class,
+        AuctionService.class, AuctionServiceImpl.class})
 @EnableTransactionManagement
 public class DataBaseConfigurationTest {
 
